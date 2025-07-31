@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
-import { useAuth } from "../../../../../double2/double2/src/hooks/auth";
 import { useEffect } from "react";
+import { useAuth } from "../../hooks/auth";
 
 const Navbar = () => {
   const { token, balance } = useSelector((state) => state.auth);

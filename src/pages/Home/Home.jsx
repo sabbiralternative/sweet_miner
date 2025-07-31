@@ -6,8 +6,12 @@ import { generateBoxDataWithMines } from "./home.utils";
 import { useSound } from "../../context/ApiProvider";
 import { playButtonEnable, playWin } from "../../utils/sound";
 import soundAudio from "../../assets/sound";
+import { useOrderMutation } from "../../redux/features/events/events";
+import { generateRoundId } from "../../utils/generateRoundId";
+import toast from "react-hot-toast";
 
 const Home = () => {
+  const [addOrder] = useOrderMutation();
   const audioRef = useRef(null);
   const { sound } = useSound();
   const [isGameStart, setIsGameStart] = useState(false);
@@ -15,26 +19,72 @@ const Home = () => {
   const [rottenEgs, setRottenEgs] = useState(1);
   const [boxData, setBoxData] = useState(generateBoxDataWithMines(rottenEgs));
 
-  const handleGameStart = () => {
-    if (sound) {
-      playButtonEnable();
+  const handleGameStart = async () => {
+    if (stake) {
+      if (sound) {
+        playButtonEnable();
+      }
+
+      setBoxData(generateBoxDataWithMines(rottenEgs));
+      const round_id = generateRoundId();
+      sessionStorage.removeItem("round_id");
+      sessionStorage.setItem("round_id", round_id);
+      const payload = [
+        {
+          eventId: 20002,
+          eventName: "Mines",
+          isback: 0,
+          stake,
+          type: "bet",
+          mines_count: rottenEgs,
+          round_id,
+        },
+      ];
+      const res = await addOrder(payload).unwrap();
+      if (res?.success) {
+        setIsGameStart(true);
+        setTimeout(() => {
+          let recentResult = [];
+          const recentStoredResult = localStorage.getItem("recentResult");
+          if (recentStoredResult) {
+            recentResult = JSON.parse(recentStoredResult);
+          }
+          //push
+          localStorage.setItem("recentResult", JSON.stringify(recentResult));
+        }, 500);
+      } else {
+        setIsGameStart(false);
+        toast.error(res?.Message);
+      }
+    } else {
+      toast.error("Amount is required");
     }
-    setBoxData(generateBoxDataWithMines(rottenEgs));
-    setIsGameStart(true);
   };
 
-  const handleCashOut = () => {
+  const handleCashOut = async () => {
     if (sound) {
       playWin();
     }
-    setIsGameStart(false);
-    const updatedBox = boxData?.map((boxObj) => ({
+    const round_id = sessionStorage.getItem("round_id");
+    const payload = [
+      {
+        round_id: Number(round_id),
+        type: "cashout",
+        box_count: activeBoxCount,
+        eventId: 20002,
+      },
+    ];
+
+    const updatedBox = boxData?.map((boxObj, i) => ({
       ...boxObj,
       disable: true,
-      isGold: boxObj.mine ? false : true,
+      isGold: i === 4 ? false : true,
+      mine: i === 4 ? true : false,
       roundEnd: true,
       opacity: boxObj.isGold ? 1 : 0.5,
     }));
+    await addOrder(payload).unwrap();
+    setIsGameStart(false);
     setBoxData(updatedBox);
   };
 
@@ -61,6 +111,7 @@ const Home = () => {
   }, [sound]);
 
   const isCashOutActive = boxData.some((box) => box.isGold);
+  const activeBoxCount = boxData.filter((box) => box.isGold).length;
 
   return (
     <div id="app" className="sc-iGkqmO ckwDLe">
@@ -81,6 +132,8 @@ const Home = () => {
             </div>
           </div>
           <MinesBox
+            activeBoxCount={activeBoxCount}
+            addOrder={addOrder}
             setIsGameStart={setIsGameStart}
             isGameStart={isGameStart}
             boxData={boxData}
