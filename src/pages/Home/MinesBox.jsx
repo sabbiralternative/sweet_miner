@@ -101,20 +101,11 @@ const MinesBox = ({
               >
                 <span className="sc-eCApnc iylGhi">
                   {box?.mine && box?.roundEnd ? (
-                    <img
-                      src="https://curacao-sweet.gamingcorpsgames.com/static/media/mine.min.b651699b.png"
-                      alt="part"
-                    />
+                    <img src="/mine.min.b651699b.png" alt="part" />
                   ) : box?.isGold ? (
-                    <img
-                      src="https://curacao-sweet.gamingcorpsgames.com/static/media/prize.min.ae3c1949.png"
-                      alt="part"
-                    />
+                    <img src="/prize.min.ae3c1949.png" alt="part" />
                   ) : (
-                    <img
-                      src="https://curacao-sweet.gamingcorpsgames.com/static/media/t.min.9ebadef9.png"
-                      alt="part"
-                    />
+                    <img src="/t.min.9ebadef9.png" alt="part" />
                   )}
                 </span>
                 <span
