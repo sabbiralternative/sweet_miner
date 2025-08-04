@@ -15,6 +15,8 @@ const MinesBox = ({
   setIsGameStart,
   addOrder,
   activeBoxCount,
+  selectedBoxes,
+  setSelectedBoxes,
 }) => {
   const { sound } = useSound();
   const [shakeBoxId, setShakeBoxId] = useState(null);
@@ -32,10 +34,12 @@ const MinesBox = ({
           box_id: box?.id,
           box_count: activeBoxCount,
           eventId: 20002,
+          selected_tiles: [...selectedBoxes, box?.id],
         },
       ];
       const res = await addOrder(payload).unwrap();
       if (res.success) {
+        setSelectedBoxes((prev) => [...prev, box?.id]);
         setShakeBoxId(null);
         if (res?.gem === 0) {
           if (sound) {

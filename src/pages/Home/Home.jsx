@@ -9,8 +9,10 @@ import soundAudio from "../../assets/sound";
 import { useOrderMutation } from "../../redux/features/events/events";
 import { generateRoundId } from "../../utils/generateRoundId";
 import toast from "react-hot-toast";
+import { useAuth } from "../../hooks/auth";
 
 const Home = () => {
+  const { mutate: handleAuth } = useAuth();
   const [addOrder] = useOrderMutation();
   const audioRef = useRef(null);
   const { sound } = useSound();
@@ -18,13 +20,14 @@ const Home = () => {
   const [stake, setStake] = useState(10);
   const [rottenEgs, setRottenEgs] = useState(1);
   const [boxData, setBoxData] = useState(generateBoxDataWithMines(rottenEgs));
+  const [selectedBoxes, setSelectedBoxes] = useState([]);
 
   const handleGameStart = async () => {
     if (stake) {
       if (sound) {
         playButtonEnable();
       }
-
+      setSelectedBoxes([]);
       setBoxData(generateBoxDataWithMines(rottenEgs));
       const round_id = generateRoundId();
       sessionStorage.removeItem("round_id");
@@ -42,6 +45,7 @@ const Home = () => {
       ];
       const res = await addOrder(payload).unwrap();
       if (res?.success) {
+        handleAuth();
         setIsGameStart(true);
         setTimeout(() => {
           let recentResult = [];
@@ -72,20 +76,23 @@ const Home = () => {
         type: "cashout",
         box_count: activeBoxCount,
         eventId: 20002,
+        selected_tiles: selectedBoxes,
       },
     ];
 
-    const updatedBox = boxData?.map((boxObj, i) => ({
-      ...boxObj,
-      disable: true,
-      isGold: i === 4 ? false : true,
-      mine: i === 4 ? true : false,
-      roundEnd: true,
-      opacity: boxObj.isGold ? 1 : 0.5,
-    }));
-    await addOrder(payload).unwrap();
-    setIsGameStart(false);
-    setBoxData(updatedBox);
+    const res = await addOrder(payload).unwrap();
+    if (res?.success) {
+      const updatedBox = boxData?.map((boxObj, i) => ({
+        ...boxObj,
+        disable: true,
+        isGold: res?.all?.[i] === 1 ? true : false,
+        mine: res?.all?.[i] === 0 ? true : false,
+        roundEnd: true,
+        opacity: boxObj.isGold ? 1 : 0.5,
+      }));
+      setIsGameStart(false);
+      setBoxData(updatedBox);
+    }
   };
 
   useEffect(() => {
@@ -132,6 +139,8 @@ const Home = () => {
             </div>
           </div>
           <MinesBox
+            setSelectedBoxes={setSelectedBoxes}
+            selectedBoxes={selectedBoxes}
             activeBoxCount={activeBoxCount}
             addOrder={addOrder}
             setIsGameStart={setIsGameStart}
