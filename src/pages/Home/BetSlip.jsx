@@ -1,5 +1,7 @@
+import { useState } from "react";
 import { useSound } from "../../context/ApiProvider";
 import { playButtonEnable } from "../../utils/sound";
+import Rules from "./Rules/Rules";
 
 const BetSlip = ({
   stake,
@@ -11,15 +13,38 @@ const BetSlip = ({
   handleCashOut,
   isCashOutActive,
 }) => {
+  const [showRule, setShowRule] = useState(false);
   const { sound, setSound } = useSound();
+
+  const handleChangeBetAmount = (type) => {
+    if (sound) {
+      playButtonEnable();
+    }
+    if (type === "minus") {
+      if (stake > 0 && stake <= 100) {
+        setStake((prev) => Math.max(prev - 10, 0));
+      } else if (stake > 100 && stake <= 1000) {
+        setStake((prev) => Math.max(prev - 100, 0));
+      } else if (stake > 1000) {
+        setStake((prev) => Math.max(prev - 500, 0));
+      }
+    }
+    if (type === "plus") {
+      if (stake >= 0 && stake < 100) {
+        setStake((prev) => prev + 10);
+      } else if (stake >= 100 && stake < 1000) {
+        setStake((prev) => prev + 100);
+      } else if (stake >= 1000) {
+        setStake((prev) => prev + 500);
+      }
+    }
+  };
 
   return (
     <aside className="sc-jHcXXw lkkECO">
-      <img
-        src="https://curacao-sweet.gamingcorpsgames.com/static/media/game_logo.min.cc3b93d3.png"
-        className="sc-dWBRfb iWqacH"
-      />
+      <img src="/game_logo.min.cc3b93d3.png" className="sc-dWBRfb iWqacH" />
       <div data-box="toasts" className="sc-bdnxRM jvCTkj" />
+      {showRule && <Rules setShowRule={setShowRule} />}
       <section data-box="informer" className="sc-eEVmNe illmTA">
         <div className="sc-fmdNqN hyACbC">
           <button
@@ -48,6 +73,7 @@ const BetSlip = ({
             </span>
           </button>
           <button
+            onClick={() => setShowRule(true)}
             data-mode="default"
             className="sc-bqGGPW iPexDg"
             style={{ flex: "0 0 70px" }}
@@ -127,14 +153,7 @@ const BetSlip = ({
             <div className="sc-bkbkJK eraKfR">
               <button
                 disabled={isGameStart}
-                onClick={() => {
-                  if (sound) {
-                    playButtonEnable();
-                  }
-                  if (stake > 10) {
-                    setStake((prev) => prev - 10);
-                  }
-                }}
+                onClick={() => handleChangeBetAmount("minus")}
                 className="sc-bCwfaz hzzSzX"
               >
                 <svg width={20} height={20} xmlns="http://www.w3.org/2000/svg">
@@ -182,23 +201,16 @@ const BetSlip = ({
                   className="sc-cxNHIi fHUQtx"
                   defaultValue={3}
                 />
-                <span
+                {/* <span
                   className="sc-iwajpm kydRHc"
-                  style={{ width: `${stake}%` }}
-                />
+                  style={{ width: `${stake / 10000}%` }}
+                /> */}
               </div>
             </div>
             <div className="sc-iemWCZ hKymwP">
               <button
                 disabled={isGameStart}
-                onClick={() => {
-                  if (sound) {
-                    playButtonEnable();
-                  }
-                  if (stake < 100) {
-                    setStake((prev) => prev + 10);
-                  }
-                }}
+                onClick={() => handleChangeBetAmount("plus")}
                 className="sc-bCwfaz hzzSzX"
               >
                 <svg width={20} height={20} xmlns="http://www.w3.org/2000/svg">
@@ -212,7 +224,7 @@ const BetSlip = ({
               <button
                 disabled={isGameStart}
                 onClick={() => {
-                  setStake(100);
+                  setStake(10000);
                   if (sound) {
                     playButtonEnable();
                   }
@@ -285,10 +297,10 @@ const BetSlip = ({
                   className="sc-cxNHIi fHUQtx"
                   defaultValue={0}
                 />
-                <span
+                {/* <span
                   className="sc-iwajpm kydRHc"
                   style={{ width: `${rottenEgs * 10}%` }}
-                />
+                /> */}
               </div>
             </div>
             <div className="sc-iemWCZ hKymwP">
@@ -298,7 +310,7 @@ const BetSlip = ({
                   if (sound) {
                     playButtonEnable();
                   }
-                  if (rottenEgs < 10) {
+                  if (rottenEgs < 24) {
                     setRottenEgs((prev) => prev + 1);
                   }
                 }}
@@ -315,7 +327,7 @@ const BetSlip = ({
               <button
                 disabled={isGameStart}
                 onClick={() => {
-                  setRottenEgs(10);
+                  setRottenEgs(24);
                   if (sound) {
                     playButtonEnable();
                   }
@@ -328,9 +340,9 @@ const BetSlip = ({
           </div>
         </div>
         <div className="sc-EZqKI iONckA">
-          <span>With this number of rotten eggs the maximum win is </span>
+          {/* <span>With this number of rotten eggs the maximum win is </span>
           <span>€</span>
-          <span>48.66</span>
+          <span>48.66</span> */}
         </div>
         <a className="sc-fXgAZx erAkNO">Back to lobby</a>
       </section>

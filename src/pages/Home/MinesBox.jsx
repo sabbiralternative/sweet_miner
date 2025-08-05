@@ -90,7 +90,7 @@ const MinesBox = ({
               style={{ opacity: box?.opacity }}
               onClick={() => handleBoxClick(box)}
               key={box.id}
-              disabled={!isGameStart || box?.disable}
+              disabled={!isGameStart || box?.disable || shakeBoxId}
               className={cn(
                 "sc-dlnjwi dJXsSm flip-card",
                 box?.isGold && "is-last is-gold selected",
