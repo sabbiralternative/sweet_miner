@@ -37,40 +37,42 @@ const MinesBox = ({
           selected_tiles: [...selectedBoxes, box?.id],
         },
       ];
-      const res = await addOrder(payload).unwrap();
-      if (res.success) {
-        setSelectedBoxes((prev) => [...prev, box?.id]);
-        setShakeBoxId(null);
-        if (res?.gem === 0) {
-          if (sound) {
-            playDynamiteExplosion();
+      setTimeout(async () => {
+        const res = await addOrder(payload).unwrap();
+        if (res.success) {
+          setSelectedBoxes((prev) => [...prev, box?.id]);
+          setShakeBoxId(null);
+          if (res?.gem === 0) {
+            if (sound) {
+              playDynamiteExplosion();
+            }
+            setIsGameStart(false);
+            const updatedBox = boxData?.map((boxObj, i) => ({
+              ...boxObj,
+              disable: true,
+              isGold: res?.all?.[i] === 0 ? false : true,
+              mine: res?.all?.[i] === 0 ? true : false,
+              roundEnd: true,
+              opacity: boxObj.isGold || box.id === boxObj.id ? 1 : 0.5,
+            }));
+            setBoxData(updatedBox);
+          } else {
+            if (sound) {
+              playGoldReveal();
+            }
+            const updatedBox = boxData?.map((boxObj) =>
+              boxObj.id === box.id
+                ? {
+                    ...boxObj,
+                    disable: true,
+                    isGold: true,
+                  }
+                : { ...boxObj }
+            );
+            setBoxData(updatedBox);
           }
-          setIsGameStart(false);
-          const updatedBox = boxData?.map((boxObj, i) => ({
-            ...boxObj,
-            disable: true,
-            isGold: res?.all?.[i] === 0 ? false : true,
-            mine: res?.all?.[i] === 0 ? true : false,
-            roundEnd: true,
-            opacity: boxObj.isGold || box.id === boxObj.id ? 1 : 0.5,
-          }));
-          setBoxData(updatedBox);
-        } else {
-          if (sound) {
-            playGoldReveal();
-          }
-          const updatedBox = boxData?.map((boxObj) =>
-            boxObj.id === box.id
-              ? {
-                  ...boxObj,
-                  disable: true,
-                  isGold: true,
-                }
-              : { ...boxObj }
-          );
-          setBoxData(updatedBox);
         }
-      }
+      }, 500);
     }
   };
 
