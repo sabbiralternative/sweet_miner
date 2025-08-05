@@ -1,4 +1,16 @@
+import { useState } from "react";
+import RottenEggs1 from "./RottenEggs1";
+
 const About = () => {
+  const [rottenEggTab, setRottenEggTab] = useState(null);
+
+  const toggleRottenEggTab = (t) => {
+    if (t === rottenEggTab) {
+      setRottenEggTab(null);
+    } else {
+      setRottenEggTab(t);
+    }
+  };
   return (
     <div className="sc-gIvpjk dVRMhB">
       <div className="sc-gSYDnn jcqGXt">
@@ -258,10 +270,17 @@ const About = () => {
             opened tiles and their corresponding bet multipliers.
           </div>
         </div>
-        <div className="sc-laZMeE ljWfRO">
-          <div className="sc-bYwzuL fDDjHD">
+        <div onClick={() => toggleRottenEggTab(1)} className="sc-laZMeE ljWfRO">
+          <div className={`sc-bYwzuL  fDDjHD}`}>
             <span data-bet-table={33} className="sc-kLojOw iehvjW" />
-            <button className="sc-iklJeh fXDTDG">Rotten eggs — 1</button>
+            <button
+              className={`sc-iklJeh  ${
+                rottenEggTab === 1 ? "beOhIh" : "fXDTDG"
+              }`}
+            >
+              Rotten eggs — 1
+            </button>
+            {rottenEggTab === 1 && <RottenEggs1 />}
           </div>
         </div>
         <div className="sc-laZMeE ljWfRO">
