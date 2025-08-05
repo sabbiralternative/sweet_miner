@@ -1,8 +1,10 @@
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import { useAuth } from "../../hooks/auth";
+import { useSound } from "../../context/ApiProvider";
 
 const Navbar = () => {
+  const { sound, setSound } = useSound();
   const { token, balance } = useSelector((state) => state.auth);
   const { mutate: handleAuth } = useAuth();
 
@@ -57,19 +59,37 @@ const Navbar = () => {
             </span>
           </button>
           <button
+            onClick={() => setSound((prev) => !prev)}
             data-mode="default"
             className="sc-bqGGPW iPexDg"
             style={{ flex: "0 0 70px" }}
           >
             <span className="sc-hBMUJo syKsX">
               <i className="sc-uxdHp fiDOnB">
-                <svg width={24} height={24} xmlns="http://www.w3.org/2000/svg">
-                  <path
-                    d="M18.375 2.61c4.906 4.905 4.978 12.815.216 17.809l-.216.222-1.06-1.061c4.324-4.325 4.392-11.295.202-15.702l-.203-.208 1.061-1.06zM12 5v14h-2l-4-4H3a1 1 0 01-1-1v-4a1 1 0 011-1h3l4-4h2zm4.375.438a8.75 8.75 0 01.18 12.19l-.18.184-1.06-1.06A7.25 7.25 0 0015.48 6.67l-.167-.172 1.061-1.06zm-2 2.828a4.75 4.75 0 01.15 6.56l-.15.158-1.06-1.06a3.25 3.25 0 00.126-4.463l-.127-.134 1.061-1.06z"
-                    fill="#FFF"
-                    fillRule="evenodd"
-                  />
-                </svg>
+                {sound ? (
+                  <svg
+                    width={24}
+                    height={24}
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M18.375 2.61c4.906 4.905 4.978 12.815.216 17.809l-.216.222-1.06-1.061c4.324-4.325 4.392-11.295.202-15.702l-.203-.208 1.061-1.06zM12 5v14h-2l-4-4H3a1 1 0 01-1-1v-4a1 1 0 011-1h3l4-4h2zm4.375.438a8.75 8.75 0 01.18 12.19l-.18.184-1.06-1.06A7.25 7.25 0 0015.48 6.67l-.167-.172 1.061-1.06zm-2 2.828a4.75 4.75 0 01.15 6.56l-.15.158-1.06-1.06a3.25 3.25 0 00.126-4.463l-.127-.134 1.061-1.06z"
+                      fill="#FFF"
+                      fillRule="evenodd"
+                    />
+                  </svg>
+                ) : (
+                  <svg
+                    height="24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="m12 5v14h-2l-4-4h-3a1 1 0 0 1 -1-1v-4a1 1 0 0 1 1-1h3l4-4zm7.47 3.47 1.06 1.06-2.469 2.47 2.47 2.47-1.061 1.06-2.47-2.469-2.47 2.47-1.06-1.061 2.469-2.47-2.47-2.47 1.061-1.06 2.47 2.469 2.47-2.47z"
+                      fill="#fff"
+                    ></path>
+                  </svg>
+                )}
               </i>
             </span>
           </button>
