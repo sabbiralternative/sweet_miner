@@ -11,6 +11,7 @@ const ApiProvider = ({ children }) => {
   const [sound, setSound] = useState(false);
   const [noticeLoaded, setNoticeLoaded] = useState(false);
   const [logo, setLogo] = useState("");
+  const [showRule, setShowRule] = useState(false);
   const baseUrl = notice?.result?.Settings?.baseUrl;
 
   useEffect(() => {
@@ -62,7 +63,7 @@ const ApiProvider = ({ children }) => {
     return;
   }
 
-  const stateInfo = { logo, sound, setSound };
+  const stateInfo = { logo, sound, setSound, showRule, setShowRule };
   return (
     <ApiContext.Provider value={stateInfo}>{children}</ApiContext.Provider>
   );
@@ -73,6 +74,10 @@ export const useLogo = () => {
   return context;
 };
 export const useSound = () => {
+  const context = useContext(ApiContext);
+  return context;
+};
+export const useContextState = () => {
   const context = useContext(ApiContext);
   return context;
 };

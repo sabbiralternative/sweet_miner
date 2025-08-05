@@ -1,16 +1,4 @@
-import { useState } from "react";
-import RottenEggs1 from "./RottenEggs1";
-
 const About = () => {
-  const [rottenEggTab, setRottenEggTab] = useState(null);
-
-  const toggleRottenEggTab = (t) => {
-    if (t === rottenEggTab) {
-      setRottenEggTab(null);
-    } else {
-      setRottenEggTab(t);
-    }
-  };
   return (
     <div className="sc-gIvpjk dVRMhB">
       <div className="sc-gSYDnn jcqGXt">
@@ -260,77 +248,7 @@ const About = () => {
             amount of mines on the grid and the current bet multiplier.
           </div>
         </div>
-        <div className="sc-laZMeE ljWfRO">
-          <div className="sc-gGLxEB dGJRan">
-            The two factors determining the bet multiplier are the number of
-            successfully opened tiles revealing treasures, and the total number
-            of mines on the grid. The number of Rotten Eggs available to choose
-            are 1, 2, 3, 5, 7, 10, 17, 20 and 24. Below are tables for each
-            possible combination of number of Rotten Eggs and successfully
-            opened tiles and their corresponding bet multipliers.
-          </div>
-        </div>
-        <div onClick={() => toggleRottenEggTab(1)} className="sc-laZMeE ljWfRO">
-          <div className={`sc-bYwzuL  fDDjHD}`}>
-            <span data-bet-table={33} className="sc-kLojOw iehvjW" />
-            <button
-              className={`sc-iklJeh  ${
-                rottenEggTab === 1 ? "beOhIh" : "fXDTDG"
-              }`}
-            >
-              Rotten eggs — 1
-            </button>
-            {rottenEggTab === 1 && <RottenEggs1 />}
-          </div>
-        </div>
-        <div className="sc-laZMeE ljWfRO">
-          <div className="sc-bYwzuL fDDjHD">
-            <span data-bet-table={34} className="sc-kLojOw iehvjW" />
-            <button className="sc-iklJeh fXDTDG">Rotten eggs — 2</button>
-          </div>
-        </div>
-        <div className="sc-laZMeE ljWfRO">
-          <div className="sc-bYwzuL fDDjHD">
-            <span data-bet-table={35} className="sc-kLojOw iehvjW" />
-            <button className="sc-iklJeh fXDTDG">Rotten eggs — 3</button>
-          </div>
-        </div>
-        <div className="sc-laZMeE ljWfRO">
-          <div className="sc-bYwzuL fDDjHD">
-            <span data-bet-table={36} className="sc-kLojOw iehvjW" />
-            <button className="sc-iklJeh fXDTDG">Rotten eggs — 5</button>
-          </div>
-        </div>
-        <div className="sc-laZMeE ljWfRO">
-          <div className="sc-bYwzuL fDDjHD">
-            <span data-bet-table={37} className="sc-kLojOw iehvjW" />
-            <button className="sc-iklJeh fXDTDG">Rotten eggs — 7</button>
-          </div>
-        </div>
-        <div className="sc-laZMeE ljWfRO">
-          <div className="sc-bYwzuL fDDjHD">
-            <span data-bet-table={38} className="sc-kLojOw iehvjW" />
-            <button className="sc-iklJeh fXDTDG">Rotten eggs — 10</button>
-          </div>
-        </div>
-        <div className="sc-laZMeE ljWfRO">
-          <div className="sc-bYwzuL fDDjHD">
-            <span data-bet-table={39} className="sc-kLojOw iehvjW" />
-            <button className="sc-iklJeh fXDTDG">Rotten eggs — 17</button>
-          </div>
-        </div>
-        <div className="sc-laZMeE ljWfRO">
-          <div className="sc-bYwzuL fDDjHD">
-            <span data-bet-table={40} className="sc-kLojOw iehvjW" />
-            <button className="sc-iklJeh fXDTDG">Rotten eggs — 20</button>
-          </div>
-        </div>
-        <div className="sc-laZMeE ljWfRO">
-          <div className="sc-bYwzuL fDDjHD">
-            <span data-bet-table={41} className="sc-kLojOw iehvjW" />
-            <button className="sc-iklJeh fXDTDG">Rotten eggs — 24</button>
-          </div>
-        </div>
+        {/* 
         <div className="sc-laZMeE ljWfRO">
           <h4 className="sc-eJocfa jARayQ">
             Please note: malfunction voids all pays and plays.
@@ -342,11 +260,11 @@ const About = () => {
             interrupted game session is subject to termination as per country
             regulations, or casino terms and conditions.
           </div>
-        </div>
-        <div className="sc-laZMeE ljWfRO">
+        </div> */}
+        {/* <div className="sc-laZMeE ljWfRO">
           <h4 className="sc-eJocfa jARayQ">Version 1.1.7</h4>
         </div>
-        <button className="sc-jOFryr egeLzW">Bets history</button>
+        <button className="sc-jOFryr egeLzW">Bets history</button> */}
       </div>
     </div>
   );

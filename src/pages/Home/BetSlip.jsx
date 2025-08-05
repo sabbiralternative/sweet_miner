@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useSound } from "../../context/ApiProvider";
+import { isMobile } from "react-device-detect";
+import { useContextState, useSound } from "../../context/ApiProvider";
 import { playButtonEnable } from "../../utils/sound";
 import Rules from "./Rules/Rules";
 
@@ -13,7 +13,7 @@ const BetSlip = ({
   handleCashOut,
   isCashOutActive,
 }) => {
-  const [showRule, setShowRule] = useState(false);
+  const { showRule, setShowRule } = useContextState();
   const { sound, setSound } = useSound();
 
   const handleChangeBetAmount = (type) => {
@@ -44,7 +44,12 @@ const BetSlip = ({
     <aside className="sc-jHcXXw lkkECO">
       <img src="/game_logo.min.cc3b93d3.png" className="sc-dWBRfb iWqacH" />
       <div data-box="toasts" className="sc-bdnxRM jvCTkj" />
-      {showRule && <Rules setShowRule={setShowRule} />}
+      {showRule && !isMobile && (
+        <div className={`sc-bXexck kmvQjn`}>
+          <Rules setShowRule={setShowRule} />
+        </div>
+      )}
+
       <section data-box="informer" className="sc-eEVmNe illmTA">
         <div className="sc-fmdNqN hyACbC">
           <button
