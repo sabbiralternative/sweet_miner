@@ -10,8 +10,11 @@ import { useOrderMutation } from "../../redux/features/events/events";
 import { generateRoundId } from "../../utils/generateRoundId";
 import toast from "react-hot-toast";
 import { useAuth } from "../../hooks/auth";
+import { useSelector } from "react-redux";
 
 const Home = () => {
+  const errorMessage = sessionStorage.getItem("errorMessage");
+  const { token } = useSelector((state) => state.auth);
   const { mutate: handleAuth } = useAuth();
   const [addOrder] = useOrderMutation();
   const audioRef = useRef(null);
@@ -45,7 +48,7 @@ const Home = () => {
       ];
       const res = await addOrder(payload).unwrap();
       if (res?.success) {
-        handleAuth();
+        handleAuth(token);
         setIsGameStart(true);
         setTimeout(() => {
           let recentResult = [];
@@ -82,6 +85,7 @@ const Home = () => {
 
     const res = await addOrder(payload).unwrap();
     if (res?.success) {
+      handleAuth(token);
       const updatedBox = boxData?.map((boxObj, i) => ({
         ...boxObj,
         disable: true,
@@ -120,7 +124,7 @@ const Home = () => {
   const isCashOutActive = boxData.some((box) => box.isGold);
   const activeBoxCount = boxData.filter((box) => box.isGold).length;
 
-  return (
+  return token ? (
     <div id="app" className="sc-iGkqmO ckwDLe">
       <section className="sc-xGAEC cBoHoo">
         <section className="sc-bQCEYZ irmCui">
@@ -160,6 +164,13 @@ const Home = () => {
           stake={stake}
         />
       </section>
+    </div>
+  ) : (
+    <div className="error-container">
+      <div className="alert alert-danger text-center m-0 " role="alert">
+        {errorMessage ||
+          "URL parameters are missing or invalid. Key: token | Value"}
+      </div>
     </div>
   );
 };

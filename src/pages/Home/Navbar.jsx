@@ -1,6 +1,4 @@
 import { useSelector } from "react-redux";
-import { useEffect } from "react";
-import { useAuth } from "../../hooks/auth";
 import { useContextState, useSound } from "../../context/ApiProvider";
 import { isMobile } from "react-device-detect";
 import Rules from "./Rules/Rules";
@@ -8,14 +6,8 @@ import Rules from "./Rules/Rules";
 const Navbar = () => {
   const { showRule, setShowRule } = useContextState();
   const { sound, setSound } = useSound();
-  const { token, balance } = useSelector((state) => state.auth);
-  const { mutate: handleAuth } = useAuth();
+  const { balance } = useSelector((state) => state.auth);
 
-  useEffect(() => {
-    if (token) {
-      handleAuth();
-    }
-  }, [token, handleAuth]);
   return (
     <>
       {showRule && isMobile && (
@@ -43,6 +35,7 @@ const Navbar = () => {
               >
                 Balance
               </span>
+
               <span
                 className="sc-hBMUJo syKsX"
                 style={{

@@ -2,6 +2,8 @@ import { isMobile } from "react-device-detect";
 import { useContextState, useSound } from "../../context/ApiProvider";
 import { playButtonEnable } from "../../utils/sound";
 import Rules from "./Rules/Rules";
+import { Settings } from "../../api";
+import { useSelector } from "react-redux";
 
 const BetSlip = ({
   stake,
@@ -13,6 +15,7 @@ const BetSlip = ({
   handleCashOut,
   isCashOutActive,
 }) => {
+  const { token } = useSelector((state) => state.auth);
   const { showRule, setShowRule } = useContextState();
   const { sound, setSound } = useSound();
 
@@ -39,10 +42,17 @@ const BetSlip = ({
       }
     }
   };
-
+  const handleOpenLobby = () => {
+    const url = `${Settings.lobby}/${token}`;
+    window.location.href = url;
+  };
   return (
     <aside className="sc-jHcXXw lkkECO">
-      <img src="/game_logo.min.cc3b93d3.png" className="sc-dWBRfb iWqacH" />
+      <img
+        src="/sweet_miner/game_logo.min.cc3b93d3.png"
+        className="sc-dWBRfb iWqacH"
+      />
+
       <div data-box="toasts" className="sc-bdnxRM jvCTkj" />
       {showRule && !isMobile && (
         <div className={`sc-bXexck kmvQjn`}>
@@ -349,7 +359,9 @@ const BetSlip = ({
           <span>€</span>
           <span>48.66</span> */}
         </div>
-        <a className="sc-fXgAZx erAkNO">Back to lobby</a>
+        <a onClick={handleOpenLobby} className="sc-fXgAZx erAkNO">
+          Back to lobby
+        </a>
       </section>
     </aside>
   );
