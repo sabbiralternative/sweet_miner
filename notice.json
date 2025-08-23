@@ -7,7 +7,7 @@
     "settings": {
       "siteTitle": "Sweet Miner",
       "disabledDevtool": false,
-      "baseUrl": "/sweet_miner",
+      "baseUrl": "",
       "lobby": "https://aura365.io"
     },
 
