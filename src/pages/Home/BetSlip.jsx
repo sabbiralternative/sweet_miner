@@ -48,10 +48,7 @@ const BetSlip = ({
   };
   return (
     <aside className="sc-jHcXXw lkkECO">
-      <img
-        src="/sweet_miner/game_logo.min.cc3b93d3.png"
-        className="sc-dWBRfb iWqacH"
-      />
+      <img src="/game_logo.min.cc3b93d3.png" className="sc-dWBRfb iWqacH" />
 
       <div data-box="toasts" className="sc-bdnxRM jvCTkj" />
       {showRule && !isMobile && (
