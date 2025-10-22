@@ -14,8 +14,9 @@ const BetSlip = ({
   isGameStart,
   handleCashOut,
   isCashOutActive,
+  current_multiplier,
 }) => {
-  const { token } = useSelector((state) => state.auth);
+  const { token, balance } = useSelector((state) => state.auth);
   const { showRule, setShowRule } = useContextState();
   const { sound, setSound } = useSound();
 
@@ -80,8 +81,8 @@ const BetSlip = ({
                 color: "var(--btn-c-informer-balance-text)",
               }}
             >
-              <span>€</span>
-              <span>100000</span>
+              <span>₹</span>
+              <span>{balance}</span>
             </span>
           </button>
           <button
@@ -147,7 +148,7 @@ const BetSlip = ({
             className="sc-bqGGPW iPexDg"
           >
             <span className="sc-hBMUJo syKsX">
-              <span>Cash out</span>
+              <span>Cash out : {current_multiplier}</span>
             </span>
           </button>
         ) : (

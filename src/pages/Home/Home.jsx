@@ -20,10 +20,12 @@ const Home = () => {
   const audioRef = useRef(null);
   const { sound } = useSound();
   const [isGameStart, setIsGameStart] = useState(false);
-  const [stake, setStake] = useState(10);
+  const [stake, setStake] = useState(50);
   const [rottenEgs, setRottenEgs] = useState(1);
   const [boxData, setBoxData] = useState(generateBoxDataWithMines(rottenEgs));
   const [selectedBoxes, setSelectedBoxes] = useState([]);
+  const [current_multiplier, setCurrentMultiplier] = useState(0);
+  const [next_multiplier, setNextMultiplier] = useState(0);
 
   const handleGameStart = async () => {
     if (stake) {
@@ -37,7 +39,7 @@ const Home = () => {
       sessionStorage.setItem("round_id", round_id);
       const payload = [
         {
-          eventId: 20002,
+          eventId: 20003,
           eventName: "Mines",
           isback: 0,
           stake,
@@ -48,6 +50,9 @@ const Home = () => {
       ];
       const res = await addOrder(payload).unwrap();
       if (res?.success) {
+        const multiplier = Number(res?.current_multiplier) * stake;
+        setCurrentMultiplier(multiplier.toFixed(2));
+        setNextMultiplier(res?.next_multiplier);
         handleAuth(token);
         setIsGameStart(true);
         setTimeout(() => {
@@ -78,8 +83,9 @@ const Home = () => {
         round_id: Number(round_id),
         type: "cashout",
         box_count: activeBoxCount,
-        eventId: 20002,
+        eventId: 20003,
         selected_tiles: selectedBoxes,
+        stake,
       },
     ];
 
@@ -151,6 +157,9 @@ const Home = () => {
             isGameStart={isGameStart}
             boxData={boxData}
             setBoxData={setBoxData}
+            setCurrentMultiplier={setCurrentMultiplier}
+            setNextMultiplier={setNextMultiplier}
+            stake={stake}
           />
         </section>
         <BetSlip
@@ -162,6 +171,7 @@ const Home = () => {
           setRottenEgs={setRottenEgs}
           setStake={setStake}
           stake={stake}
+          current_multiplier={current_multiplier}
         />
       </section>
     </div>

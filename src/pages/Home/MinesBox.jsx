@@ -17,6 +17,9 @@ const MinesBox = ({
   activeBoxCount,
   selectedBoxes,
   setSelectedBoxes,
+  setCurrentMultiplier,
+  setNextMultiplier,
+  stake,
 }) => {
   const { sound } = useSound();
   const [shakeBoxId, setShakeBoxId] = useState(null);
@@ -33,13 +36,16 @@ const MinesBox = ({
           type: "select_box",
           box_id: box?.id,
           box_count: activeBoxCount,
-          eventId: 20002,
+          eventId: 20003,
           selected_tiles: [...selectedBoxes, box?.id],
         },
       ];
       setTimeout(async () => {
         const res = await addOrder(payload).unwrap();
         if (res.success) {
+          const multiplier = Number(res?.current_multiplier) * stake;
+          setCurrentMultiplier(multiplier.toFixed(2));
+          setNextMultiplier(res?.next_multiplier);
           setSelectedBoxes((prev) => [...prev, box?.id]);
           setShakeBoxId(null);
           if (res?.gem === 0) {
