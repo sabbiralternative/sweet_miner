@@ -1,16 +1,27 @@
 import { useSelector } from "react-redux";
 import { useContextState, useSound } from "../../context/ApiProvider";
-import { isMobile } from "react-device-detect";
+// import { isMobile } from "react-device-detect";
 import Rules from "./Rules/Rules";
+import { useEffect } from "react";
 
 const Navbar = () => {
   const { showRule, setShowRule } = useContextState();
   const { sound, setSound } = useSound();
   const { balance } = useSelector((state) => state.auth);
 
+  useEffect(() => {
+    const handleResize = () => {
+      setShowRule(false);
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [setShowRule]);
+
   return (
     <>
-      {showRule && isMobile && (
+      {showRule && (
         <div className={`sc-hmbstg iriXCP`}>
           <div className="sc-eKYRIR llyViG">
             <Rules setShowRule={setShowRule} />
@@ -46,29 +57,28 @@ const Navbar = () => {
                 <span>{balance}</span>
               </span>
             </button>
-            {isMobile && (
-              <button
-                onClick={() => setShowRule(true)}
-                data-mode="default"
-                className="sc-bqGGPW iPexDg"
-                style={{ flex: "0 0 70px" }}
-              >
-                <span className="sc-hBMUJo syKsX">
-                  <i className="sc-uxdHp fiDOnB">
-                    <svg
-                      height={24}
-                      width={24}
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="m12 1c6.075 0 11 4.925 11 11s-4.925 11-11 11-11-4.925-11-11 4.925-11 11-11zm0 1.5a9.5 9.5 0 1 0 0 19 9.5 9.5 0 0 0 0-19zm.798 7.185-1.326 6.646.311.094 2.57-2.378 1.147.992-1.146 1.166c-.612.63-1.15 1.086-1.613 1.37a2.74 2.74 0 0 1 -1.45.425c-.589 0-1.036-.15-1.342-.449s-.458-.7-.458-1.205c0-.147.01-.299.032-.456.022-.158.06-.362.115-.614l.802-4.016h-1.94l.278-1.575zm-.442-3.685c.459 0 .778.084.958.252s.27.373.27.614c0 .053-.005.12-.016.205-.011.084-.027.2-.05.346a1.148 1.148 0 0 1 -.4.717c-.213.173-.549.26-1.007.26-.459 0-.778-.084-.958-.252a.808.808 0 0 1 -.27-.614c0-.053.005-.121.016-.205l.02-.15.029-.197c.055-.304.188-.543.401-.716s.549-.26 1.007-.26z"
-                        fill="#fff"
-                      />
-                    </svg>
-                  </i>
-                </span>
-              </button>
-            )}
+
+            <button
+              onClick={() => setShowRule(true)}
+              data-mode="default"
+              className="sc-bqGGPW iPexDg"
+              style={{ flex: "0 0 70px" }}
+            >
+              <span className="sc-hBMUJo syKsX">
+                <i className="sc-uxdHp fiDOnB">
+                  <svg
+                    height={24}
+                    width={24}
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="m12 1c6.075 0 11 4.925 11 11s-4.925 11-11 11-11-4.925-11-11 4.925-11 11-11zm0 1.5a9.5 9.5 0 1 0 0 19 9.5 9.5 0 0 0 0-19zm.798 7.185-1.326 6.646.311.094 2.57-2.378 1.147.992-1.146 1.166c-.612.63-1.15 1.086-1.613 1.37a2.74 2.74 0 0 1 -1.45.425c-.589 0-1.036-.15-1.342-.449s-.458-.7-.458-1.205c0-.147.01-.299.032-.456.022-.158.06-.362.115-.614l.802-4.016h-1.94l.278-1.575zm-.442-3.685c.459 0 .778.084.958.252s.27.373.27.614c0 .053-.005.12-.016.205-.011.084-.027.2-.05.346a1.148 1.148 0 0 1 -.4.717c-.213.173-.549.26-1.007.26-.459 0-.778-.084-.958-.252a.808.808 0 0 1 -.27-.614c0-.053.005-.121.016-.205l.02-.15.029-.197c.055-.304.188-.543.401-.716s.549-.26 1.007-.26z"
+                      fill="#fff"
+                    />
+                  </svg>
+                </i>
+              </span>
+            </button>
 
             <button
               onClick={() => setSound((prev) => !prev)}
