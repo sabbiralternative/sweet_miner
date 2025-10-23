@@ -39,8 +39,8 @@ const Home = () => {
       sessionStorage.setItem("round_id", round_id);
       const payload = [
         {
-          eventId: 20003,
-          eventName: "Mines",
+          eventId: 20004,
+          eventName: "Sweet Miner",
           isback: 0,
           stake,
           type: "bet",
@@ -83,7 +83,7 @@ const Home = () => {
         round_id: Number(round_id),
         type: "cashout",
         box_count: activeBoxCount,
-        eventId: 20003,
+        eventId: 20004,
         selected_tiles: selectedBoxes,
         stake,
       },

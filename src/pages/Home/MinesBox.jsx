@@ -36,7 +36,7 @@ const MinesBox = ({
           type: "select_box",
           box_id: box?.id,
           box_count: activeBoxCount,
-          eventId: 20003,
+          eventId: 20004,
           selected_tiles: [...selectedBoxes, box?.id],
         },
       ];
