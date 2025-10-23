@@ -20,7 +20,7 @@ const Home = () => {
   const audioRef = useRef(null);
   const { sound } = useSound();
   const [isGameStart, setIsGameStart] = useState(false);
-  const [stake, setStake] = useState(50);
+  const [stake, setStake] = useState(10);
   const [rottenEgs, setRottenEgs] = useState(1);
   const [boxData, setBoxData] = useState(generateBoxDataWithMines(rottenEgs));
   const [selectedBoxes, setSelectedBoxes] = useState([]);

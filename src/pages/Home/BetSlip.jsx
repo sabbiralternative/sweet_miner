@@ -165,7 +165,7 @@ const BetSlip = ({
           <div className="sc-fFSPTT eEJWPz">
             <div className="sc-bkbkJK eraKfR">
               <button
-                disabled={isGameStart}
+                disabled={isGameStart || stake <= 10}
                 onClick={() => handleChangeBetAmount("minus")}
                 className="sc-bCwfaz hzzSzX"
               >
@@ -222,7 +222,7 @@ const BetSlip = ({
             </div>
             <div className="sc-iemWCZ hKymwP">
               <button
-                disabled={isGameStart}
+                disabled={isGameStart || stake >= 10000}
                 onClick={() => handleChangeBetAmount("plus")}
                 className="sc-bCwfaz hzzSzX"
               >
@@ -253,7 +253,7 @@ const BetSlip = ({
           <div className="sc-fFSPTT eEJWPz">
             <div className="sc-bkbkJK eraKfR">
               <button
-                disabled={isGameStart}
+                disabled={isGameStart || rottenEgs === 1}
                 onClick={() => {
                   if (sound) {
                     playButtonEnable();
@@ -318,7 +318,7 @@ const BetSlip = ({
             </div>
             <div className="sc-iemWCZ hKymwP">
               <button
-                disabled={isGameStart}
+                disabled={isGameStart || rottenEgs === 24}
                 onClick={() => {
                   if (sound) {
                     playButtonEnable();
